@@ -1,7 +1,25 @@
 <?php
 
+declare(strict_types=1);
+
+namespace App;
+
 require_once("src/utils/debug.php");
+require_once("src/View.php");
 
-$test = 'test';
+const DEFAULT_ACTION = 'list';
 
-dump(['abc', 'bcd', 'cde']);
+$action = $_GET['action'] ?? DEFAULT_ACTION;
+
+$view = new View();
+
+$viewParams = [];
+if ($action === 'create') {
+   $page = 'create';
+   $viewParams['resultCreate'] =  'Udalo sie';
+} else {
+   $page = 'list';
+   $viewParams['resultList'] = 'Wyswietlamy notatki';
+}
+
+$view->render($page, $viewParams);
