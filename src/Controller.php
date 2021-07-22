@@ -14,9 +14,12 @@ require_once("src/Database.php");
 class Controller
 {
    private const DEFAULT_ACTION = 'list';
+
+   private static  $configuration = [];
+
+   private $database;
    private $request;
    private $view;
-   private static  $configuration = [];
 
    public static function initConfiguration(array $configuration): void
    {
@@ -29,7 +32,7 @@ class Controller
          throw new ConfigurationException('Configuration Error');
       }
 
-      $db = new Database(self::$configuration['db']);
+      $this->database = new Database(self::$configuration['db']);
 
       $this->request = $request;
       $this->view = new View();
@@ -45,12 +48,12 @@ class Controller
             $created = false;
 
             $data = $this->getRequestPost();
+
             if (!empty($data)) {
                $created = true;
-               $viewParams = [
-                  'title' =>  $data['title'],
-                  'description' =>  $data['description']
-               ];
+               $this->database->createNote($data);
+
+               header('Location: /');
             }
 
             $viewParams['created'] = $created;
@@ -63,7 +66,7 @@ class Controller
             break;
          default:
             $page = 'list';
-            $viewParams['resultList'] = 'Wyswietlamy notatki';
+            $viewParams['resultList'] = 'Showing Notes';
             break;
       }
 

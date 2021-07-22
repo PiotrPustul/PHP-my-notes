@@ -25,13 +25,12 @@ try {
    // $controller = new Controller($request);
    // $controller->run();
 } catch (ConfigurationException $e) {
-   dump($e);
-   echo "<h1>Aplication Error</h1>";
+   echo "<h1>index.php ===> Aplication Error ConfigurationException</h1>";
    echo 'Aplication Error. You need to contact with admin !!!';
 } catch (AppException $e) {
-   echo "<h1>Aplication Error</h1>";
+   echo "<h1>index.php ===> Aplication Error AppException</h1>";
    echo '<h3>' . $e->getMessage() . '</h3>';
 } catch (Throwable $e) {
-   echo "<h1>Aplication Error</h1>";
+   echo "<h1>index.php ===> Aplication Error Throwable</h1>";
    dump($e);
 }
