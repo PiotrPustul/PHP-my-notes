@@ -4,8 +4,13 @@ declare(strict_types=1);
 
 namespace App;
 
+use App\Exception\AppException;
+use App\Exception\ConfigurationException;
+use Throwable;
+
 require_once("src/utils/debug.php");
 require_once("src/Controller.php");
+require_once("src/Exception/AppException.php");
 
 $configuration = require_once("config/config.php");
 
@@ -14,8 +19,19 @@ $request = [
    'post' => $_POST
 ];
 
-// $controller = new Controller($request);
-// $controller->run();
-
-Controller::initConfiguration($configuration);
-(new Controller($request))->run();
+try {
+   Controller::initConfiguration($configuration);
+   (new Controller($request))->run();
+   // $controller = new Controller($request);
+   // $controller->run();
+} catch (ConfigurationException $e) {
+   dump($e);
+   echo "<h1>Aplication Error</h1>";
+   echo 'Aplication Error. You need to contact with admin !!!';
+} catch (AppException $e) {
+   echo "<h1>Aplication Error</h1>";
+   echo '<h3>' . $e->getMessage() . '</h3>';
+} catch (Throwable $e) {
+   echo "<h1>Aplication Error</h1>";
+   dump($e);
+}
