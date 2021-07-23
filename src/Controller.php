@@ -7,6 +7,7 @@ namespace App;
 require_once("src/Exception/ConfigurationException.php");
 
 use App\Exception\ConfigurationException;
+use App\Exception\NotFoundException;
 
 require_once("src/View.php");
 require_once("src/Database.php");
@@ -40,12 +41,9 @@ class Controller
 
    public function run(): void
    {
-      $viewParams = [];
-
       switch ($this->action()) {
          case 'create':
             $page = 'create';
-
             $data = $this->getRequestPost();
 
             if (!empty($data)) {
@@ -54,27 +52,40 @@ class Controller
                   'description' => $data['description']
                ];
                $this->database->createNote($noteData);
-
                header('Location: /?before=created');
             }
 
             break;
          case 'show':
+            $page = 'show';
+            $data = $this->getRequestGet();
+            $noteId = (int) $data['id'];
+
+
+            try {
+               $this->database->getNote($noteId);
+            } catch (NotFoundException $e) {
+               exit('KONTROLLLLERINO');
+            }
+
             $viewParams = [
                'title' => 'My Title',
                'description' => 'My Description'
             ];
+
             break;
          default:
             $page = 'list';
-
             $data = $this->getRequestGet();
 
-            $viewParams['before'] = $data['before'] ?? null;
+            $viewParams = [
+               'notes' => $this->database->getNotes(),
+               'before' => $data['before'] ?? null
+            ];
             break;
       }
 
-      $this->view->render($page, $viewParams);
+      $this->view->render($page, $viewParams ?? []);
    }
 
    private function action(): string

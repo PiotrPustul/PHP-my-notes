@@ -5,10 +5,11 @@ declare(strict_types=1);
 namespace App;
 
 require_once("Exception/AppException.php");
+require_once("Exception/NotFoundException.php");
 
 use App\Exception\ConfigurationException;
 use App\Exception\StorageException;
-
+use App\Exception\NotFoundException;
 use PDO;
 use PDOException;
 use Throwable;
@@ -24,6 +25,36 @@ class Database
          $this->createConnection($config);
       } catch (PDOException $e) {
          throw new StorageException('Connection Error');
+      }
+   }
+
+   public function getNote(int $id): array
+   {
+      try {
+         $query = "SELECT * FROM notes WHERE id = $id";
+         $result = $this->connection->query($query);
+         $note = $result->fetch(PDO::FETCH_ASSOC);
+      } catch (Throwable $e) {
+         dump($e);
+         throw new StorageException('Note could not be retrieved', 400, $e);
+      }
+
+      if (!$note) {
+         throw new NotFoundException("The note on id: $id does not exist");
+         exit('Nie ma');
+      }
+
+      return $note;
+   }
+
+   public function getNotes(): array
+   {
+      try {
+         $query = "SELECT id, title, created FROM notes";
+         $result = $this->connection->query($query);
+         return $result->fetchAll(PDO::FETCH_ASSOC);
+      } catch (Throwable $e) {
+         throw new StorageException('Data on notes could not be retrieved', 400, $e);
       }
    }
 
