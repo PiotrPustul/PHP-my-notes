@@ -2,6 +2,20 @@
    <section>
       <div class="message">
          <?php
+         if (!empty($params['error'])) {
+            switch ($params['error']) {
+               case 'missingNoteId':
+                  echo "the note Id is not correct";
+                  break;
+               case 'noteNotFound':
+                  echo "The note could not be found !!!";
+                  break;
+            }
+         }
+         ?>
+      </div>
+      <div class="message">
+         <?php
          if (!empty($params['before'])) {
             switch ($params['before']) {
                case 'created':
@@ -32,7 +46,9 @@
                      <td><?php echo htmlentities($note['title']) ?></td>
                      <td><?php echo htmlentities($note['created']) ?></td>
                      <td>
-                        <a href="/?action=show&id=<?php echo (int) $note['id'] ?>">Show</a>
+                        <a href="/?action=show&id=<?php echo (int) $note['id'] ?>">
+                           <button>Details</button>
+                        </a>
                      </td>
                   </tr>
                <?php endforeach; ?>
