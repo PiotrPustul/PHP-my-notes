@@ -5,7 +5,7 @@ declare(strict_types=1);
 namespace App;
 
 require_once("src/utils/debug.php");
-require_once("src/Controller.php");
+require_once("src/NoteController.php");
 require_once("src/Request.php");
 require_once("src/Exception/AppException.php");
 
@@ -19,8 +19,8 @@ $configuration = require_once("config/config.php");
 $request = new Request($_GET, $_POST);
 
 try {
-   Controller::initConfiguration($configuration);
-   (new Controller($request))->run();
+   AbstractController::initConfiguration($configuration);
+   (new NoteController($request))->run();
    // $controller = new Controller($request);
    // $controller->run();
 } catch (ConfigurationException $e) {
