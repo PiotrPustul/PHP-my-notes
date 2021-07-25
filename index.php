@@ -14,7 +14,6 @@ use App\Exception\AppException;
 use App\Exception\ConfigurationException;
 use Throwable;
 
-
 $configuration = require_once("config/config.php");
 
 $request = new Request($_GET, $_POST);
