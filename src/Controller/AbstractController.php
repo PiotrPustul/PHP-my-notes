@@ -9,6 +9,7 @@ use App\Database;
 use App\View;
 use App\Exception\ConfigurationException;
 
+
 abstract class AbstractController
 {
    protected const DEFAULT_ACTION = 'list';

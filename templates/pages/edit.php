@@ -1,20 +1,31 @@
 <div>
    <h3> Edit Note </h3>
    <div>
-      <form class="note-form" action="/?action=create" method="post">
-         <ul>
-            <li>
-               <label>Title <span class="required">*</span></label>
-               <input type="text" name="title" class="field-long">
-            </li>
-            <li>
-               <label>Description <span class="required">*</span></label>
-               <textarea name="description" id="field5" class="field-long field-textarea"></textarea>
-            </li>
-            <li>
-               <input type="submit" value="Submit">
-            </li>
-         </ul>
-      </form>
+      <?php if (!empty($params['note'])) : ?>
+         <?php $note = $params['note']; ?>
+         <form class="note-form" action="/?action=edit" method="post">
+            <input name="id" type="hidden" value="<?php echo $note['id'] ?>">
+            <ul>
+               <li>
+                  <label>Title <span class="required">*</span></label>
+                  <input type="text" name="title" class="field-long" value="<?php echo $note['title'] ?>">
+               </li>
+               <li>
+                  <label>Description <span class="required">*</span></label>
+                  <textarea name="description" id="field5" class="field-long field-textarea"><?php echo $note['description'] ?></textarea>
+               </li>
+               <li>
+                  <input type="submit" value="Submit">
+               </li>
+            </ul>
+         </form>
+      <?php else : ?>
+         <div>
+            There is a lack of data
+            <a href="/">
+               <button>Go back to the notes list</button>
+            </a>
+         </div>
+      <?php endif; ?>
    </div>
 </div>

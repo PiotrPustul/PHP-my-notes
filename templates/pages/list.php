@@ -21,6 +21,9 @@
                case 'created':
                   echo "The note has been created !!!";
                   break;
+               case 'edited':
+                  echo "The note has been updated";
+                  break;
             }
          }
          ?>
