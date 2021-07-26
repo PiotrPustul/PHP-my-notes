@@ -21,6 +21,9 @@
                case 'created':
                   echo "The note has been created !!!";
                   break;
+               case 'deleted':
+                  echo "The note has been deleted";
+                  break;
                case 'edited':
                   echo "The note has been updated";
                   break;
@@ -51,6 +54,9 @@
                      <td>
                         <a href="/?action=show&id=<?php echo $note['id'] ?>">
                            <button>Details</button>
+                        </a>
+                        <a href="/?action=delete&id=<?php echo $note['id'] ?>">
+                           <button>Delete</button>
                         </a>
                      </td>
                   </tr>
