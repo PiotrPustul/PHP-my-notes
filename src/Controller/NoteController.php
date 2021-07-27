@@ -16,7 +16,7 @@ class NoteController extends AbstractController
             'description' => $this->request->postParam('description')
          ];
 
-         $this->database->createNote($noteData);
+         $this->noteModel->create($noteData);
          $this->redirect('/', ['before' => 'created']);
       }
 
@@ -44,11 +44,11 @@ class NoteController extends AbstractController
       }
 
       if ($phrase) {
-         $noteList = $this->database->searchNotes($phrase, $pageNumber, $pageSize, $sortBy, $sortOrder);
-         $notesAmount = $this->database->getSearchCount($phrase);
+         $noteList = $this->noteModel->search($phrase, $pageNumber, $pageSize, $sortBy, $sortOrder);
+         $notesAmount = $this->noteModel->searchCount($phrase);
       } else {
-         $noteList = $this->database->getNotes($pageNumber, $pageSize, $sortBy, $sortOrder);
-         $notesAmount = $this->database->getCount();
+         $noteList = $this->noteModel->list($pageNumber, $pageSize, $sortBy, $sortOrder);
+         $notesAmount = $this->noteModel->count();
       }
 
       $this->view->render(
@@ -76,7 +76,7 @@ class NoteController extends AbstractController
             'title' => $this->request->postParam('title'),
             'description' => $this->request->postParam('description')
          ];
-         $this->database->editNote($noteId, $noteData);
+         $this->noteModel->edit($noteId, $noteData);
          $this->redirect('/', ['before' => 'edited']);
       }
 
@@ -90,7 +90,7 @@ class NoteController extends AbstractController
    {
       if ($this->request->isPost()) {
          $id = (int) $this->request->postParam('id');
-         $this->database->deleteNote($id);
+         $this->noteModel->delete($id);
          $this->redirect('/', ['before' => 'deleted']);
       }
 
@@ -106,6 +106,6 @@ class NoteController extends AbstractController
       if (!$noteId) {
          $this->redirect('/', ['error' => 'missingNoteId']);
       }
-      return  $this->database->getNote($noteId);
+      return  $this->noteModel->get($noteId);
    }
 }

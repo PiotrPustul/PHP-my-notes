@@ -4,8 +4,8 @@ declare(strict_types=1);
 
 namespace App\Controller;
 
+use App\Model\NoteModel;
 use App\Request;
-use App\Database;
 use App\View;
 use App\Exception\ConfigurationException;
 use App\Exception\NotFoundException;
@@ -18,7 +18,7 @@ abstract class AbstractController
 
    private static  $configuration = [];
 
-   protected $database;
+   protected $noteModel;
    protected $request;
    protected $view;
 
@@ -33,7 +33,7 @@ abstract class AbstractController
          throw new ConfigurationException('Configuration Error');
       }
 
-      $this->database = new Database(self::$configuration['db']);
+      $this->noteModel = new NoteModel(self::$configuration['db']);
       $this->request = $request;
       $this->view = new View();
    }
