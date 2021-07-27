@@ -81,7 +81,6 @@ class NoteModel extends AbstractModel implements ModelInterface
 
       if (!$note) {
          throw new NotFoundException("The note on id: $id does not exist");
-         exit('Nie ma');
       }
 
       return $note;

@@ -20,10 +20,10 @@ use App\Exception\ConfigurationException;
 $request = new Request($_GET, $_POST, $_SERVER);
 
 try {
-   AbstractController::initConfiguration($configuration);
-   (new NoteController($request))->run();
    // $controller = new Controller($request);
    // $controller->run();
+   AbstractController::initConfiguration($configuration);
+   (new NoteController($request))->run();
 } catch (ConfigurationException $e) {
    echo "<h1>index.php ===> Aplication Error ConfigurationException</h1>";
    echo 'Aplication Error. You need to contact with admin !!!';
