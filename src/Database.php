@@ -44,9 +44,16 @@ class Database
       return $note;
    }
 
-   public function getNotes(string $sortBy, string $sortOrder): array
-   {
+   public function getNotes(
+      int $pageNumber,
+      int $pageSize,
+      string $sortBy,
+      string $sortOrder
+   ): array {
       try {
+         $limit = $pageSize;
+         $offset = ($pageNumber - 1) * $pageSize;
+
          if (!in_array($sortBy, ['created', 'title'])) {
             $sortBy = 'title';
          }
@@ -54,11 +61,10 @@ class Database
             $sortOrder = 'desc';
          }
 
-         $query = "
-         SELECT id, title, created 
+         $query = "SELECT id, title, created 
          FROM notes
          ORDER BY $sortBy $sortOrder
-         ";
+         LIMIT $offset, $limit";
 
          $result = $this->connection->query($query);
          return $result->fetchAll(PDO::FETCH_ASSOC);
@@ -74,10 +80,8 @@ class Database
          $descritpion = $this->connection->quote($data['description']);
          $created = $this->connection->quote(date('Y-m-d H:i:s'));
 
-         $query = "
-            INSERT INTO notes(title, description, created)
-            VALUES($title, $descritpion, $created)
-          ";
+         $query = "INSERT INTO notes(title, description, created)
+            VALUES($title, $descritpion, $created)";
 
          $this->connection->exec($query);
       } catch (Throwable $e) {
@@ -93,11 +97,9 @@ class Database
          $title = $this->connection->quote($data['title']);
          $description = $this->connection->quote($data['description']);
 
-         $query = "
-            UPDATE notes
+         $query = "UPDATE notes
             SET title = $title, description = $description
-            WHERE id = $id
-         ";
+            WHERE id = $id";
 
          $this->connection->exec($query);
       } catch (Throwable $e) {
