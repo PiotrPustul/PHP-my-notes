@@ -73,6 +73,22 @@ class Database
       }
    }
 
+   public function getCount(): int
+   {
+      try {
+         $query = "SELECT count(*) AS notesAmount FROM notes";
+         $result = $this->connection->query($query);
+         $result =  $result->fetch(PDO::FETCH_ASSOC);
+         if ($result === false) {
+            throw new StorageException('Could not download the info of the amount of the note', 400);
+         }
+
+         return (int) $result['notesAmount'];
+      } catch (Throwable $e) {
+         throw new StorageException('The number of notes information could not be retrieved', 400, $e);
+      }
+   }
+
    public function createNote(array $data): void
    {
       try {
