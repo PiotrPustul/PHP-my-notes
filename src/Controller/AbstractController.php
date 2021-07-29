@@ -11,7 +11,6 @@ use App\Exception\ConfigurationException;
 use App\Exception\NotFoundException;
 use App\Exception\StorageException;
 
-
 abstract class AbstractController
 {
    protected const DEFAULT_ACTION = 'list';
