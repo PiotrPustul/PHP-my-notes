@@ -8,8 +8,8 @@ spl_autoload_register(function (string $classNameSpace) {
    require_once($path);
 });
 
+require_once realpath(__DIR__ . "/vendor/autoload.php");
 require_once("src/utils/debug.php");
-$configuration = require_once("config/config.php");
 
 use App\Controller\AbstractController;
 use App\Controller\NoteController;
@@ -17,11 +17,21 @@ use App\Request;
 use App\Exception\AppException;
 use App\Exception\ConfigurationException;
 
+$dotenv = Dotenv\Dotenv::createImmutable(__DIR__);
+$dotenv->load();
+
+$configuration = [
+   'db' => [
+      'host' => $_ENV['DB_HOST'],
+      'database' => $_ENV['DB_NAME'],
+      'user' => $_ENV['DB_USER'],
+      'password' => $_ENV['DB_PASS'],
+   ]
+];
+
 $request = new Request($_GET, $_POST, $_SERVER);
 
 try {
-   // $controller = new Controller($request);
-   // $controller->run();
    AbstractController::initConfiguration($configuration);
    (new NoteController($request))->run();
 } catch (ConfigurationException $e) {
