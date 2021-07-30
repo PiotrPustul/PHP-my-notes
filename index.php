@@ -29,6 +29,8 @@ $configuration = [
    ]
 ];
 
+var_dump($configuration);
+
 $request = new Request($_GET, $_POST, $_SERVER);
 
 try {
