@@ -22,14 +22,12 @@ $dotenv->load();
 
 $configuration = [
    'db' => [
-      'host' => $_ENV['DB_HOST'],
-      'database' => $_ENV['DB_NAME'],
-      'user' => $_ENV['DB_USER'],
-      'password' => $_ENV['DB_PASS'],
+      'host' => getenv('DB_HOST'),
+      'database' => getenv('DB_NAME'),
+      'user' => getenv('DB_USER'),
+      'password' => getenv('DB_PASS'),
    ]
 ];
-
-var_dump($configuration);
 
 $request = new Request($_GET, $_POST, $_SERVER);
 
