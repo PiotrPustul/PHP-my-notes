@@ -22,10 +22,10 @@ $dotenv->load();
 
 $configuration = [
    'db' => [
-      'host' => getenv('DB_HOST'),
-      'database' => getenv('DB_NAME'),
-      'user' => getenv('DB_USER'),
-      'password' => getenv('DB_PASS'),
+      'host' => $_ENV['DB_HOST'],
+      'database' => $_ENV['DB_NAME'],
+      'user' => $_ENV['DB_USER'],
+      'password' => $_ENV['DB_PASS'],
    ]
 ];
 
